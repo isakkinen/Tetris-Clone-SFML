@@ -41,13 +41,14 @@ private:
 	static constexpr unsigned borderWidth{ 4 };
 	static constexpr unsigned borderHeight{ 4 };
 	static constexpr float updateDelay{ 30.0f };
-	float updateTimer{ 0.0f };
+	const sf::Vector2i spawnPosition{ 4,-2 };
 	const sf::Color boardColor{ sf::Color::Black };
 	const sf::Color backgroundColor{ sf::Color::White };
+	float updateTimer{ 0.0f };
 	sf::RectangleShape background;
 	Block gameBoard[height][width];
 	Tetromino* currentTetromino;
-	sf::Vector2i tetrominoPosition{ 4,0 };
+	sf::Vector2i tetrominoPosition{ spawnPosition };
 	PlayInputState* inputState{ new Idle };
 	Angle tetrominoAngle{ Angle::North };
 };

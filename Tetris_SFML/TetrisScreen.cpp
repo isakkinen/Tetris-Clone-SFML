@@ -36,10 +36,11 @@ void TetrisScreen::update(const float dt)
 			newTetromino();
 		}
 	}
+
 	// Clear screen
-	clearScreen();
+	//clearScreen();
 	// Draw tetromino in the correct position
-	drawTetromino();
+	//drawTetromino();
 
 	// Update every block one by one
 	for (auto& row : gameBoard) {
@@ -103,8 +104,11 @@ void TetrisScreen::drawTetromino()
 
 void TetrisScreen::newTetromino()
 {
-	tetrominoPosition = { 4,0 };
+	tetrominoPosition = { spawnPosition };
 	currentTetromino = new OTetromino();
+	tetrominoAngle = Angle::North;
+	clearScreen();
+	drawTetromino();
 }
 
 void TetrisScreen::plantTetromino()
@@ -139,6 +143,8 @@ void TetrisScreen::moveTetromino(const sf::Vector2i & dir)
 {
 	if (canMove(dir)) {
 		tetrominoPosition += dir;
+		clearScreen();
+		drawTetromino();
 	}
 }
 
@@ -150,12 +156,12 @@ void TetrisScreen::dropTetromino()
 			moveTetromino({ 0,1 });
 		}
 		else {
-			plantTetromino(); // <---- If this is enabled, it won't destroy the newly planted block when getting a line filled! FIX IT!
-			scanLines();
+			plantTetromino();
+			newTetromino();
+			resetTimer();
 			break;
 		}
 	}
-
 }
 
 bool TetrisScreen::canMove(const sf::Vector2i & dir)
