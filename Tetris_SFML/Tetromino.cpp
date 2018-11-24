@@ -28,11 +28,6 @@ ITetromino::ITetromino()
 	}
 }
 
-const std::vector<std::vector<bool>>& OTetromino::getShape() const
-{
-	return this->shape;
-}
-
 const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
 {
 	switch (angle)
@@ -72,11 +67,6 @@ const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
 sf::Color OTetromino::getColor() const
 {
 	return this->color;
-}
-
-const std::vector<std::vector<bool>>& ITetromino::getShape() const
-{
-	return this->shape;
 }
 
 const std::vector<std::vector<bool>>& ITetromino::getShape(const Angle angle)
@@ -126,3 +116,122 @@ sf::Color ITetromino::getColor() const
 	return this->color;
 }
 
+STetromino::STetromino()
+{
+	// A stupid disgusting way to initialize the 2D-array
+	const auto model = new bool[4][4]{ { 0, 0, 0, 0 },{ 0,1,1,0 },{ 1,1,0,0 },{ 0,0,0,0 } };
+	for (unsigned i = 0; i < 4; ++i) {
+		shape.push_back(std::vector<bool>(4));
+		rotatedShape.push_back(std::vector<bool>(4));
+		for (unsigned j = 0; j < 4; ++j) {
+			shape[i][j] = model[i][j];
+			rotatedShape[i][j] = model[i][j];
+		}
+	}
+}
+
+const std::vector<std::vector<bool>>& STetromino::getShape(const Angle angle)
+{
+	return this->shape;
+}
+
+sf::Color STetromino::getColor() const
+{
+	return sf::Color();
+}
+
+ZTetromino::ZTetromino()
+{
+	// A stupid disgusting way to initialize the 2D-array
+	const auto model = new bool[4][4]{ { 0, 0, 0, 0 },{ 1,1,0,0 },{ 0,1,1,0 },{ 0,0,0,0 } };
+	for (unsigned i = 0; i < 4; ++i) {
+		shape.push_back(std::vector<bool>(4));
+		rotatedShape.push_back(std::vector<bool>(4));
+		for (unsigned j = 0; j < 4; ++j) {
+			shape[i][j] = model[i][j];
+			rotatedShape[i][j] = model[i][j];
+		}
+	}
+}
+
+const std::vector<std::vector<bool>>& ZTetromino::getShape(const Angle angle)
+{
+	return this->shape;
+}
+
+sf::Color ZTetromino::getColor() const
+{
+	return this->color;
+}
+
+TTetromino::TTetromino()
+{
+	// A stupid disgusting way to initialize the 2D-array
+	const auto model = new bool[4][4]{ { 0, 0, 0, 0 },{ 1,1,1,0 },{ 0,1,0,0 },{ 0,0,0,0 } };
+	for (unsigned i = 0; i < 4; ++i) {
+		shape.push_back(std::vector<bool>(4));
+		rotatedShape.push_back(std::vector<bool>(4));
+		for (unsigned j = 0; j < 4; ++j) {
+			shape[i][j] = model[i][j];
+			rotatedShape[i][j] = model[i][j];
+		}
+	}
+}
+
+const std::vector<std::vector<bool>>& TTetromino::getShape(const Angle angle)
+{
+	return this->shape;
+}
+
+sf::Color TTetromino::getColor() const
+{
+	return this->color;
+}
+
+LTetromino::LTetromino()
+{
+	// A stupid disgusting way to initialize the 2D-array
+	const auto model = new bool[4][4]{ { 0, 1, 0, 0 },{ 0,1,0,0 },{ 0,1,1,0 },{ 0,0,0,0 } };
+	for (unsigned i = 0; i < 4; ++i) {
+		shape.push_back(std::vector<bool>(4));
+		rotatedShape.push_back(std::vector<bool>(4));
+		for (unsigned j = 0; j < 4; ++j) {
+			shape[i][j] = model[i][j];
+			rotatedShape[i][j] = model[i][j];
+		}
+	}
+}
+
+const std::vector<std::vector<bool>>& LTetromino::getShape(const Angle angle)
+{
+	return this->shape;
+}
+
+sf::Color LTetromino::getColor() const
+{
+	return this->color;
+}
+
+JTetromino::JTetromino()
+{
+	// A stupid disgusting way to initialize the 2D-array
+	const auto model = new bool[4][4]{ { 0, 1, 0, 0 },{ 0,1,0,0 },{ 1,1,0,0 },{ 0,0,0,0 } };
+	for (unsigned i = 0; i < 4; ++i) {
+		shape.push_back(std::vector<bool>(4));
+		rotatedShape.push_back(std::vector<bool>(4));
+		for (unsigned j = 0; j < 4; ++j) {
+			shape[i][j] = model[i][j];
+			rotatedShape[i][j] = model[i][j];
+		}
+	}
+}
+
+const std::vector<std::vector<bool>>& JTetromino::getShape(const Angle angle)
+{
+	return this->shape;
+}
+
+sf::Color JTetromino::getColor() const
+{
+	return this->color;
+}
