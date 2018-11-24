@@ -128,7 +128,6 @@ void TetrisScreen::newTetromino()
 		currentTetromino = &Tetromino::tTetromino;
 		break;
 	}
-	currentTetromino = tetrominos[uni(rng)];
 	tetrominoAngle = Angle::North;
 	clearScreen();
 	drawTetromino();
@@ -159,6 +158,8 @@ void TetrisScreen::rotateTetromino(const RotationDirection direction)
 		tetrominoAngle = static_cast<Angle>(tetrominoAngle - 1 < 0 ? 3 : tetrominoAngle - 1);
 		break;
 	}
+	clearScreen();
+	drawTetromino();
 }
 
 void TetrisScreen::moveTetromino(const sf::Vector2i & dir)
