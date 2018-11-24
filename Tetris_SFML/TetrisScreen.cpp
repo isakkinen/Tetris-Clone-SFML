@@ -17,7 +17,7 @@ TetrisScreen::TetrisScreen(const sf::Vector2f & position,
 		}
 	}
 	// Set initial tetromino
-	currentTetromino = new ITetromino();
+	currentTetromino = &Tetromino::iTetromino;
 }
 
 void TetrisScreen::update(const float dt)
@@ -36,11 +36,6 @@ void TetrisScreen::update(const float dt)
 			newTetromino();
 		}
 	}
-
-	// Clear screen
-	//clearScreen();
-	// Draw tetromino in the correct position
-	//drawTetromino();
 
 	// Update every block one by one
 	for (auto& row : gameBoard) {
@@ -104,8 +99,36 @@ void TetrisScreen::drawTetromino()
 
 void TetrisScreen::newTetromino()
 {
+
 	tetrominoPosition = { spawnPosition };
-	currentTetromino = new OTetromino();
+
+	const int nextTetromino = uni(rng);
+
+	switch (nextTetromino)
+	{
+	case 0:
+		currentTetromino = &Tetromino::oTetromino;
+		break;
+	case 1:
+		currentTetromino = &Tetromino::iTetromino;
+		break;
+	case 2:
+		currentTetromino = &Tetromino::sTetromino;
+		break;
+	case 3:
+		currentTetromino = &Tetromino::zTetromino;
+		break;
+	case 4:
+		currentTetromino = &Tetromino::jTetromino;
+		break;
+	case 5:
+		currentTetromino = &Tetromino::lTetromino;
+		break;
+	case 6:
+		currentTetromino = &Tetromino::tTetromino;
+		break;
+	}
+	currentTetromino = tetrominos[uni(rng)];
 	tetrominoAngle = Angle::North;
 	clearScreen();
 	drawTetromino();

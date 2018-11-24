@@ -28,17 +28,23 @@ ITetromino::ITetromino()
 	}
 }
 
-const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
-{
+const std::vector<std::vector<bool>> getRotatedShape(const Angle angle, const std::vector<std::vector<bool>>& shape) {
+	std::vector<std::vector<bool>> rotatedShape;
+	rotatedShape.reserve(rotatedShape.size());
 	switch (angle)
 	{
 	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
 		return rotatedShape;
 		break;
 	case Angle::East:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[3 - iX][3 - iY];
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
 			}
 		}
 		return rotatedShape;
@@ -46,7 +52,7 @@ const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
 	case Angle::South:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[3 - iY][iX];
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
 			}
 		}
 		return rotatedShape;
@@ -54,12 +60,53 @@ const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
 	case Angle::West:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[3 - iX][3 - iY];
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
 			}
 		}
 		break;
 	default:
-		return this->shape;
+		return shape;
+	}
+	return shape;
+}
+
+const std::vector<std::vector<bool>>& OTetromino::getShape(const Angle angle)
+{
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
 	}
 	return rotatedShape;
 }
@@ -77,7 +124,7 @@ const std::vector<std::vector<bool>>& ITetromino::getShape(const Angle angle)
 	case Angle::North:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[iY][iX];
+				rotatedShape[iY][iX] = shape[iY][iX];
 			}
 		}
 		return rotatedShape;
@@ -85,7 +132,7 @@ const std::vector<std::vector<bool>>& ITetromino::getShape(const Angle angle)
 	case Angle::East:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[iX][3-iY];
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
 			}
 		}
 		return rotatedShape;
@@ -93,7 +140,7 @@ const std::vector<std::vector<bool>>& ITetromino::getShape(const Angle angle)
 	case Angle::South:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[3-iY][3-iX];
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
 			}
 		}
 		return rotatedShape;
@@ -101,12 +148,12 @@ const std::vector<std::vector<bool>>& ITetromino::getShape(const Angle angle)
 	case Angle::West:
 		for (unsigned iY = 0; iY < 4; ++iY) {
 			for (unsigned iX = 0; iX < 4; ++iX) {
-				rotatedShape[iY][iX] = this->shape[3-iX][iY];
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
 			}
 		}
 		break;
 	default:
-		return this->shape;
+		return shape;
 	}
 	return rotatedShape;
 }
@@ -132,12 +179,48 @@ STetromino::STetromino()
 
 const std::vector<std::vector<bool>>& STetromino::getShape(const Angle angle)
 {
-	return this->shape;
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
+	}
+	return rotatedShape;
 }
 
 sf::Color STetromino::getColor() const
 {
-	return sf::Color();
+	return this->color;
 }
 
 ZTetromino::ZTetromino()
@@ -156,7 +239,43 @@ ZTetromino::ZTetromino()
 
 const std::vector<std::vector<bool>>& ZTetromino::getShape(const Angle angle)
 {
-	return this->shape;
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
+	}
+	return rotatedShape;
 }
 
 sf::Color ZTetromino::getColor() const
@@ -180,7 +299,43 @@ TTetromino::TTetromino()
 
 const std::vector<std::vector<bool>>& TTetromino::getShape(const Angle angle)
 {
-	return this->shape;
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
+	}
+	return rotatedShape;
 }
 
 sf::Color TTetromino::getColor() const
@@ -204,7 +359,43 @@ LTetromino::LTetromino()
 
 const std::vector<std::vector<bool>>& LTetromino::getShape(const Angle angle)
 {
-	return this->shape;
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
+	}
+	return rotatedShape;
 }
 
 sf::Color LTetromino::getColor() const
@@ -228,10 +419,55 @@ JTetromino::JTetromino()
 
 const std::vector<std::vector<bool>>& JTetromino::getShape(const Angle angle)
 {
-	return this->shape;
+	switch (angle)
+	{
+	case Angle::North:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iY][iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::East:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[iX][3 - iY];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::South:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iY][3 - iX];
+			}
+		}
+		return rotatedShape;
+		break;
+	case Angle::West:
+		for (unsigned iY = 0; iY < 4; ++iY) {
+			for (unsigned iX = 0; iX < 4; ++iX) {
+				rotatedShape[iY][iX] = shape[3 - iX][iY];
+			}
+		}
+		break;
+	default:
+		return shape;
+	}
+	return rotatedShape;
 }
 
 sf::Color JTetromino::getColor() const
 {
 	return this->color;
 }
+
+
+ITetromino Tetromino::iTetromino;
+OTetromino Tetromino::oTetromino;
+JTetromino Tetromino::jTetromino;
+LTetromino Tetromino::lTetromino;
+ZTetromino Tetromino::zTetromino;
+STetromino Tetromino::sTetromino;
+TTetromino Tetromino::tTetromino;

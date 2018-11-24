@@ -1,11 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <random>
 #include "Block.h"
 #include "Tetromino.h"
 #include "InputState.h"
-
-//class InputState;
 
 class TetrisScreen : public sf::Drawable, public sf::Transformable
 	// Handles the tetrominos and the whole play area
@@ -51,4 +50,10 @@ private:
 	sf::Vector2i tetrominoPosition{ spawnPosition };
 	PlayInputState* inputState{ new Idle };
 	Angle tetrominoAngle{ Angle::North };
+
+	std::random_device rd;
+	std::mt19937 rng{ rd() };
+	std::uniform_int_distribution<int> uni{ 0, 7 };
+
+	std::vector<Tetromino*> tetrominos{ 7 };
 };

@@ -10,13 +10,29 @@ enum Angle
 	Count
 };
 
+class ITetromino;
+class OTetromino;
+class JTetromino;
+class LTetromino;
+class ZTetromino;
+class STetromino;
+class TTetromino;
+
 class Tetromino
 {
 public:
 	virtual const std::vector<std::vector<bool>>& getShape(const Angle angle) = 0;
 	virtual sf::Color getColor() const = 0;
+	static ITetromino iTetromino;
+	static OTetromino oTetromino;
+	static JTetromino jTetromino;
+	static LTetromino lTetromino;
+	static ZTetromino zTetromino;
+	static STetromino sTetromino;
+	static TTetromino tTetromino;
 private:
 };
+
 
 class OTetromino : public Tetromino
 {
@@ -101,3 +117,4 @@ private:
 	std::vector<std::vector<bool>> rotatedShape{ shape };
 	const sf::Color color{ sf::Color::Cyan };
 };
+
