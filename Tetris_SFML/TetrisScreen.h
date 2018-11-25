@@ -10,8 +10,6 @@ class TetrisScreen : public sf::Drawable, public sf::Transformable
 	// Handles the tetrominos and the whole play area
 {
 public:
-
-public:
 	// Public methods
 	TetrisScreen(const sf::Vector2f& position, const sf::Vector2f& blockSize = { 32.0f,32.0f });
 	void update(const float dt);
