@@ -3,6 +3,14 @@
 
 class TetrisScreen;
 
+class Idle;
+class LeftPressed;
+class RightPressed;
+class DownPressed;
+class RotationPressed;
+class CRotationPressed;
+
+
 enum class RotationDirection
 {
 	Clockwise,
@@ -13,6 +21,13 @@ class PlayInputState
 public:
 	virtual void handleInput(TetrisScreen* target) = 0;
 	virtual void update(const float dt);
+
+	static Idle idle;
+	static LeftPressed leftPressed;
+	static RightPressed rightPressed;
+	static DownPressed downPressed;
+	static RotationPressed rotationPressed;
+	static CRotationPressed cRotationPressed;
 private:
 };
 
@@ -57,6 +72,7 @@ public:
 	virtual void update(const float dt);
 private:
 	bool isPressed{ true };
+	bool doubleTapped{ false };
 	static constexpr float updateDelay{ 15.0f };
 	float updateTimer{ 0.0f };
 };
