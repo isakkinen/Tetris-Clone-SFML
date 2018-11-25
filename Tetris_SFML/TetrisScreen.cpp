@@ -149,6 +149,7 @@ void TetrisScreen::plantTetromino()
 
 void TetrisScreen::rotateTetromino(const RotationDirection direction)
 {
+	if (!canRotate(direction)) return;
 	switch (direction)
 	{
 	case RotationDirection::Clockwise:
@@ -218,6 +219,58 @@ bool TetrisScreen::canMove(const sf::Vector2i & dir)
 		}
 	}
 	// Otherwise we're good to go
+	return true;
+}
+
+bool TetrisScreen::canRotate(const RotationDirection direction)
+{
+	Angle potentialAngle = tetrominoAngle;
+	switch (direction)
+	{
+	case RotationDirection::Clockwise:
+		potentialAngle = static_cast<Angle>(tetrominoAngle + 1 > 3 ? 0 : tetrominoAngle + 1);
+		break;
+	case RotationDirection::CounterClockwise:
+		potentialAngle = static_cast<Angle>(tetrominoAngle - 1 < 0 ? 3 : tetrominoAngle - 1);
+		break;
+	}
+
+	for (int iY = 0; iY < 4; ++iY) {
+		for (int iX = 0; iX < 4; ++iX) {
+			bool isOutX{ iX + tetrominoPosition.x < 0 ||
+				iX + tetrominoPosition.x >= width };
+			bool isOutY{ iY + tetrominoPosition.y < 0 ||
+				iY + tetrominoPosition.y >= height };
+			// If the checked block is already out of bounds, don't bother to check
+
+			bool isBlock{ currentTetromino->getShape(potentialAngle)[iY][iX] == true };
+			int targetX{ tetrominoPosition.x + iX };
+			int targetY{ tetrominoPosition.y + iY };
+
+			// If at the checked coordinate there is a piece of currentTetromino, check collision
+			if (!isBlock) continue;
+			// If we are trying to rotate out of bounds, move the tetromino away
+			while (targetX < 0) {
+				moveTetromino({ 1,0 });
+				++targetX;
+			}
+			while (targetX >= width) {
+				moveTetromino({ -1,0 });
+				--targetX;
+			}
+
+			if (targetX < 0 ||
+				targetX >= width ||
+				targetY >= height) {
+				return false;
+			}
+			// If there is already a block, return false
+			else if (gameBoard[targetY][targetX].isPlanted()) {
+				return false;
+			}
+		}
+	}
+	
 	return true;
 }
 

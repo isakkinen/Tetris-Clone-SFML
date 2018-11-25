@@ -33,6 +33,7 @@ private:
 	void newTetromino();
 	void plantTetromino();
 	bool canMove(const sf::Vector2i& dir);
+	bool canRotate(const RotationDirection direction);
 private:
 	// Private members
 	static constexpr unsigned width{ 10 };
