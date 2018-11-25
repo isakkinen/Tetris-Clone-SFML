@@ -54,6 +54,4 @@ private:
 	std::random_device rd;
 	std::mt19937 rng{ rd() };
 	std::uniform_int_distribution<int> uni{ 0, 6 };
-
-	std::vector<Tetromino*> tetrominos{ 7 };
 };

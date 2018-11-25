@@ -67,7 +67,7 @@ public:
 private:
 	std::vector<std::vector<bool>> shape;
 	std::vector<std::vector<bool>> rotatedShape{ shape };
-	const sf::Color color{ sf::Color::Cyan };
+	const sf::Color color{ sf::Color::Green };
 };
 
 class ZTetromino : public Tetromino
@@ -79,7 +79,7 @@ public:
 private:
 	std::vector<std::vector<bool>> shape;
 	std::vector<std::vector<bool>> rotatedShape{ shape };
-	const sf::Color color{ sf::Color::Cyan };
+	const sf::Color color{ sf::Color::Red };
 };
 
 class TTetromino : public Tetromino
@@ -91,7 +91,7 @@ public:
 private:
 	std::vector<std::vector<bool>> shape;
 	std::vector<std::vector<bool>> rotatedShape{ shape };
-	const sf::Color color{ sf::Color::Cyan };
+	const sf::Color color{ sf::Color::Magenta };
 };
 
 class LTetromino : public Tetromino
@@ -103,7 +103,7 @@ public:
 private:
 	std::vector<std::vector<bool>> shape;
 	std::vector<std::vector<bool>> rotatedShape{ shape };
-	const sf::Color color{ sf::Color::Cyan };
+	const sf::Color color{ sf::Color(255,91,0,255) };
 };
 
 class JTetromino : public Tetromino
@@ -115,6 +115,6 @@ public:
 private:
 	std::vector<std::vector<bool>> shape;
 	std::vector<std::vector<bool>> rotatedShape{ shape };
-	const sf::Color color{ sf::Color::Cyan };
+	const sf::Color color{ sf::Color::Blue };
 };
 
