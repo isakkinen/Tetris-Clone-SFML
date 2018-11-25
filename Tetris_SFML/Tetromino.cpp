@@ -471,3 +471,44 @@ LTetromino Tetromino::lTetromino;
 ZTetromino Tetromino::zTetromino;
 STetromino Tetromino::sTetromino;
 TTetromino Tetromino::tTetromino;
+sf::Vector2i Tetromino::position{ 0,0 };
+Angle Tetromino::angle{ Angle::North };
+
+
+const sf::Vector2i & Tetromino::getPosition()
+{
+	return position;
+}
+
+void Tetromino::setPosition(const sf::Vector2i & pos)
+{
+	position = pos;
+}
+
+void Tetromino::move(const sf::Vector2i & dir)
+{
+	position += dir;
+}
+
+Angle Tetromino::getAngle()
+{
+	return angle;
+}
+
+void Tetromino::setAngle(const Angle a)
+{
+	angle = a;
+}
+
+void Tetromino::rotate(RotationDirection dir)
+{
+	switch (dir)
+	{
+	case RotationDirection::Clockwise:
+		angle = static_cast<Angle>(angle + 1 > 3 ? 0 : angle + 1);
+		break;
+	case RotationDirection::CounterClockwise:
+		angle = static_cast<Angle>(angle - 1 < 0 ? 3 : angle - 1);
+		break;
+	}
+}

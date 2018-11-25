@@ -47,10 +47,8 @@ private:
 	float updateTimer{ 0.0f };
 	sf::RectangleShape background;
 	Block gameBoard[height][width];
-	Tetromino* currentTetromino;
-	sf::Vector2i tetrominoPosition{ spawnPosition };
-	PlayInputState* inputState{ new Idle };
-	Angle tetrominoAngle{ Angle::North };
+	Tetromino* curTetromino;
+	PlayInputState* inputState{ &PlayInputState::idle };
 
 	std::random_device rd;
 	std::mt19937 rng{ rd() };

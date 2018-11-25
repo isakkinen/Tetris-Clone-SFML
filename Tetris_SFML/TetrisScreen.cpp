@@ -17,7 +17,9 @@ TetrisScreen::TetrisScreen(const sf::Vector2f & position,
 		}
 	}
 	// Set initial tetromino
-	currentTetromino = &Tetromino::iTetromino;
+	curTetromino = &Tetromino::iTetromino;
+	curTetromino->setPosition(spawnPosition);
+	curTetromino->setAngle(Angle::North);
 }
 
 void TetrisScreen::update(const float dt)
@@ -48,7 +50,6 @@ void TetrisScreen::update(const float dt)
 	scanLines();
 	// Update the timer
 	advanceTimer(dt);
-
 }
 
 void TetrisScreen::handleInput()
@@ -79,15 +80,15 @@ void TetrisScreen::skipStep()
 void TetrisScreen::drawTetromino()
 	// Draw the currentTetromino in the correct position (and ignore out of bounds pixels)
 {
-	const std::vector<std::vector<bool>> shape{ currentTetromino->getShape(tetrominoAngle) };
+	const std::vector<std::vector<bool>> shape{ curTetromino->getShape(curTetromino->getAngle()) };
 	for (int iY = 0; iY < 4; ++iY) {
 		for (int iX = 0; iX < 4; ++iX) {
-			bool isOutX{ iX + tetrominoPosition.x < 0 || iX + tetrominoPosition.x >= width };
-			bool isOutY{ iY + tetrominoPosition.y < 0 || iY + tetrominoPosition.y >= height };
+			bool isOutX{ iX + curTetromino->getPosition().x < 0 || iX + curTetromino->getPosition().x >= width };
+			bool isOutY{ iY + curTetromino->getPosition().y < 0 || iY + curTetromino->getPosition().y >= height };
 			if (!isOutX && !isOutY) {
-				Block& target{ gameBoard[tetrominoPosition.y + iY][tetrominoPosition.x + iX] };
+				Block& target{ gameBoard[curTetromino->getPosition().y + iY][curTetromino->getPosition().x + iX] };
 				if (shape[iY][iX]) {
-					target.setColor(currentTetromino->getColor());
+					target.setColor(curTetromino->getColor());
 				}
 				else if(!target.isPlanted()){
 					target.setColor(boardColor);
@@ -99,36 +100,35 @@ void TetrisScreen::drawTetromino()
 
 void TetrisScreen::newTetromino()
 {
-
-	tetrominoPosition = { spawnPosition };
+	curTetromino->setPosition(spawnPosition);
 
 	const int nextTetromino = uni(rng);
 
 	switch (nextTetromino)
 	{
 	case 0:
-		currentTetromino = &Tetromino::oTetromino;
+		curTetromino = &Tetromino::oTetromino;
 		break;
 	case 1:
-		currentTetromino = &Tetromino::iTetromino;
+		curTetromino = &Tetromino::iTetromino;
 		break;
 	case 2:
-		currentTetromino = &Tetromino::sTetromino;
+		curTetromino = &Tetromino::sTetromino;
 		break;
 	case 3:
-		currentTetromino = &Tetromino::zTetromino;
+		curTetromino = &Tetromino::zTetromino;
 		break;
 	case 4:
-		currentTetromino = &Tetromino::jTetromino;
+		curTetromino = &Tetromino::jTetromino;
 		break;
 	case 5:
-		currentTetromino = &Tetromino::lTetromino;
+		curTetromino = &Tetromino::lTetromino;
 		break;
 	case 6:
-		currentTetromino = &Tetromino::tTetromino;
+		curTetromino = &Tetromino::tTetromino;
 		break;
 	}
-	tetrominoAngle = Angle::North;
+	curTetromino->setAngle(Angle::North);
 	clearScreen();
 	drawTetromino();
 }
@@ -138,9 +138,9 @@ void TetrisScreen::plantTetromino()
 {
 	for (int iY = 0; iY < 4; ++iY) {
 		for (int iX = 0; iX < 4; ++iX) {
-			if (currentTetromino->getShape(tetrominoAngle)[iY][iX]) {
-				const int blockX{ tetrominoPosition.x + iX };
-				const int blockY{ tetrominoPosition.y + iY };
+			if (curTetromino->getShape(curTetromino->getAngle())[iY][iX]) {
+				const int blockX{ curTetromino->getPosition().x + iX };
+				const int blockY{ curTetromino->getPosition().y + iY };
 				gameBoard[blockY][blockX].plant();
 			}
 		}
@@ -150,15 +150,7 @@ void TetrisScreen::plantTetromino()
 void TetrisScreen::rotateTetromino(const RotationDirection direction)
 {
 	if (!canRotate(direction)) return;
-	switch (direction)
-	{
-	case RotationDirection::Clockwise:
-		tetrominoAngle = static_cast<Angle>(tetrominoAngle + 1 > 3 ? 0 : tetrominoAngle + 1);
-		break;
-	case RotationDirection::CounterClockwise:
-		tetrominoAngle = static_cast<Angle>(tetrominoAngle - 1 < 0 ? 3 : tetrominoAngle - 1);
-		break;
-	}
+	curTetromino->rotate(direction);
 	clearScreen();
 	drawTetromino();
 }
@@ -167,7 +159,7 @@ void TetrisScreen::moveTetromino(const sf::Vector2i & dir)
 	// Checks if tetromino can move and then does so if allowed
 {
 	if (canMove(dir)) {
-		tetrominoPosition += dir;
+		curTetromino->move(dir);
 		clearScreen();
 		drawTetromino();
 	}
@@ -193,16 +185,16 @@ bool TetrisScreen::canMove(const sf::Vector2i & dir)
 {
 	for (int iY = 0; iY < 4; ++iY) {
 		for (int iX = 0; iX < 4; ++iX) {
-			bool isOutX{ iX + tetrominoPosition.x < 0 ||
-						iX + tetrominoPosition.x >= width };
-			bool isOutY{ iY + tetrominoPosition.y < 0 ||
-						iY + tetrominoPosition.y >= height };
+			bool isOutX{ iX + curTetromino->getPosition().x < 0 ||
+						iX + curTetromino->getPosition().x >= width };
+			bool isOutY{ iY + curTetromino->getPosition().y < 0 ||
+						iY + curTetromino->getPosition().y >= height };
 			// If the checked block is already out of bounds, don't bother to check
 			if (isOutX || isOutY) continue;
 
-			bool isBlock{ currentTetromino->getShape(tetrominoAngle)[iY][iX] == true };
-			int targetX{ tetrominoPosition.x + iX + dir.x };
-			int targetY{ tetrominoPosition.y + iY + dir.y };
+			bool isBlock{ curTetromino->getShape(curTetromino->getAngle())[iY][iX] == true };
+			int targetX{ curTetromino->getPosition().x + iX + dir.x };
+			int targetY{ curTetromino->getPosition().y + iY + dir.y };
 
 			// If at the checked coordinate there is a piece of currentTetromino, check collision
 			if (!isBlock) continue;
@@ -224,28 +216,28 @@ bool TetrisScreen::canMove(const sf::Vector2i & dir)
 
 bool TetrisScreen::canRotate(const RotationDirection direction)
 {
-	Angle potentialAngle = tetrominoAngle;
+	Angle potentialAngle = curTetromino->getAngle();
 	switch (direction)
 	{
 	case RotationDirection::Clockwise:
-		potentialAngle = static_cast<Angle>(tetrominoAngle + 1 > 3 ? 0 : tetrominoAngle + 1);
+		potentialAngle = static_cast<Angle>(curTetromino->getAngle() + 1 > 3 ? 0 : curTetromino->getAngle() + 1);
 		break;
 	case RotationDirection::CounterClockwise:
-		potentialAngle = static_cast<Angle>(tetrominoAngle - 1 < 0 ? 3 : tetrominoAngle - 1);
+		potentialAngle = static_cast<Angle>(curTetromino->getAngle() - 1 < 0 ? 3 : curTetromino->getAngle() - 1);
 		break;
 	}
 
 	for (int iY = 0; iY < 4; ++iY) {
 		for (int iX = 0; iX < 4; ++iX) {
-			bool isOutX{ iX + tetrominoPosition.x < 0 ||
-				iX + tetrominoPosition.x >= width };
-			bool isOutY{ iY + tetrominoPosition.y < 0 ||
-				iY + tetrominoPosition.y >= height };
+			bool isOutX{ iX + curTetromino->getPosition().x < 0 ||
+				iX + curTetromino->getPosition().x >= width };
+			bool isOutY{ iY + curTetromino->getPosition().y < 0 ||
+				iY + curTetromino->getPosition().y >= height };
 			// If the checked block is already out of bounds, don't bother to check
 
-			bool isBlock{ currentTetromino->getShape(potentialAngle)[iY][iX] == true };
-			int targetX{ tetrominoPosition.x + iX };
-			int targetY{ tetrominoPosition.y + iY };
+			bool isBlock{ curTetromino->getShape(potentialAngle)[iY][iX] == true };
+			int targetX{ curTetromino->getPosition().x + iX };
+			int targetY{ curTetromino->getPosition().y + iY };
 
 			// If at the checked coordinate there is a piece of currentTetromino, check collision
 			if (!isBlock) continue;

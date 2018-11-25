@@ -1,14 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Enums.h"
 
-enum Angle
-{
-	North,
-	East,
-	South,
-	West,
-	Count
-};
+
 
 class ITetromino;
 class OTetromino;
@@ -23,6 +17,12 @@ class Tetromino
 public:
 	virtual const std::vector<std::vector<bool>>& getShape(const Angle angle) = 0;
 	virtual sf::Color getColor() const = 0;
+	static const sf::Vector2i& getPosition();
+	static void setPosition(const sf::Vector2i& pos);
+	static void move(const sf::Vector2i& dir);
+	static Angle getAngle();
+	static void setAngle(const Angle a);
+	static void rotate(RotationDirection dir);
 	static ITetromino iTetromino;
 	static OTetromino oTetromino;
 	static JTetromino jTetromino;
@@ -31,6 +31,8 @@ public:
 	static STetromino sTetromino;
 	static TTetromino tTetromino;
 private:
+	static sf::Vector2i position;
+	static Angle angle;
 };
 
 

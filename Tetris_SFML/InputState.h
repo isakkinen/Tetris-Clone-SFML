@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include "Enums.h"
 class TetrisScreen;
 
 class Idle;
@@ -11,11 +11,6 @@ class RotationPressed;
 class CRotationPressed;
 
 
-enum class RotationDirection
-{
-	Clockwise,
-	CounterClockwise
-};
 class PlayInputState
 {
 public:

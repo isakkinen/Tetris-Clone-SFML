@@ -16,11 +16,11 @@ void Idle::handleInput(TetrisScreen * target)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		target->setInputState(PlayInputState::downPressed);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		target->rotateTetromino(RotationDirection::CounterClockwise);
 		target->setInputState(PlayInputState::cRotationPressed);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		target->rotateTetromino(RotationDirection::Clockwise);
 		target->setInputState(PlayInputState::rotationPressed);
 	}
@@ -70,7 +70,7 @@ void DownPressed::update(const float dt)
 void RotationPressed::handleInput(TetrisScreen * target)
 {
 	//target->rotateTetromino(RotationDirection::Clockwise);
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		target->setInputState(PlayInputState::idle);
 	}
 }
@@ -78,7 +78,7 @@ void RotationPressed::handleInput(TetrisScreen * target)
 void CRotationPressed::handleInput(TetrisScreen * target)
 {
 	//target->rotateTetromino(RotationDirection::CounterClockwise);
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		target->setInputState(PlayInputState::idle);
 	}
 }
