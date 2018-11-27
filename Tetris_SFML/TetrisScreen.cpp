@@ -1,4 +1,5 @@
 #include "TetrisScreen.h"
+#include "Game.h"
 #include <iostream>
 #include <thread>
 TetrisScreen::TetrisScreen(const sf::Vector2f & position,
@@ -22,8 +23,13 @@ TetrisScreen::TetrisScreen(const sf::Vector2f & position,
 	curTetromino->setAngle(Angle::North);
 }
 
-void TetrisScreen::update(const float dt)
+void TetrisScreen::update(Game* target, const float dt)
 {
+	// Check for gameover
+	if (isGameOver()) {
+		reset();
+		target->setState(&GameState::gameover);
+	}
 	// Update the inputState
 	inputState->update(dt);
 	// Delay update until timer is set
@@ -147,6 +153,17 @@ void TetrisScreen::plantTetromino()
 	}
 }
 
+void TetrisScreen::reset()
+{
+	for (int iY = 0; iY < height; ++iY) {
+		for (int iX = 0; iX < width; ++iX) {
+			gameBoard[iY][iX].unplant();
+			gameBoard[iY][iX].setColor(backgroundColor);
+		}
+	}
+	newTetromino();
+}
+
 void TetrisScreen::rotateTetromino(const RotationDirection direction)
 {
 	if (!canRotate(direction)) return;
@@ -264,6 +281,16 @@ bool TetrisScreen::canRotate(const RotationDirection direction)
 	}
 	
 	return true;
+}
+
+bool TetrisScreen::isGameOver()
+{
+	if (curTetromino->getPosition().y < -1) {
+		if (!canMove({ 0,1 })) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void TetrisScreen::draw(sf::RenderTarget & target, sf::RenderStates states) const

@@ -6,13 +6,15 @@
 #include "Tetromino.h"
 #include "InputState.h"
 
+class Game;
+
 class TetrisScreen : public sf::Drawable, public sf::Transformable
 	// Handles the tetrominos and the whole play area
 {
 public:
 	// Public methods
 	TetrisScreen(const sf::Vector2f& position, const sf::Vector2f& blockSize = { 32.0f,32.0f });
-	void update(const float dt);
+	void update(Game* target, const float dt);
 	void handleInput();
 	void setInputState(PlayInputState& state);
 	void moveTetromino(const sf::Vector2i& dir);
@@ -30,8 +32,10 @@ private:
 	void drawTetromino();
 	void newTetromino();
 	void plantTetromino();
+	void reset();
 	bool canMove(const sf::Vector2i& dir);
 	bool canRotate(const RotationDirection direction);
+	bool isGameOver();
 private:
 	// Private members
 	static constexpr unsigned width{ 10 };

@@ -7,7 +7,7 @@ Game::Game(GameState * initState)
 
 void Game::update(const float dt)
 {
-	state->update(dt);
+	state->update(this, dt);
 }
 
 void Game::handleInput()
