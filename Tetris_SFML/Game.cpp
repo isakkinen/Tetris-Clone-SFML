@@ -12,7 +12,12 @@ void Game::update(const float dt)
 
 void Game::handleInput()
 {
-	state->handleInput();
+	state->handleInput(this);
+}
+
+void Game::setState(GameState * target)
+{
+	state = target;
 }
 
 void Game::draw(sf::RenderTarget & target, sf::RenderStates states) const

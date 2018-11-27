@@ -7,7 +7,7 @@ int main()
 
 	auto tp{ std::chrono::system_clock::now() };
 	static constexpr float FRAME_RATE{ 60.0f };
-	static GameState* state = new Play({ 200.0f,100.0f });
+	static GameState* state = &GameState::menu;
 
 	Game game(state);
 
